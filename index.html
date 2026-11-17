@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VN Game of the Year</title>
+<style>
+:root{color-scheme:dark;--bg:#101116;--panel:#191b24;--panel2:#222531;--text:#f2f2f5;--muted:#a6a8b5;--line:#343746;--accent:#b7a0ff;--accent2:#8d74df;--good:#8bd6b0;--bad:#ff9e9e}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -15%,#29233c 0,#101116 48%);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+main{max-width:1080px;margin:auto;padding:34px 20px 70px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:32px}.brand{font-weight:750;letter-spacing:.02em}.tag{color:var(--muted);font-size:12px;border:1px solid var(--line);padding:5px 9px;border-radius:99px}
+h1{font-size:clamp(32px,6vw,54px);line-height:1.05;margin:10px 0 12px;letter-spacing:-.04em}h2{font-size:24px;margin:0 0 8px;letter-spacing:-.02em}h3{font-size:17px;margin:0}.lead{color:var(--muted);max-width:650px;margin:0 0 28px}
+.panel{background:linear-gradient(145deg,rgba(31,33,44,.97),rgba(23,25,33,.97));border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 18px 60px #0003;margin:18px 0}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.row.between{justify-content:space-between}.field{display:flex;flex-direction:column;gap:6px;flex:1;min-width:200px}label{font-size:13px;color:var(--muted)}
+input[type=text]{width:100%;background:#11131a;border:1px solid #414556;color:var(--text);border-radius:10px;padding:12px 13px;font:inherit;outline:none}input:focus{border-color:var(--accent)}
+button,.filelabel{border:0;border-radius:10px;padding:11px 16px;background:var(--accent);color:#171321;font:650 14px system-ui;cursor:pointer;transition:.15s}button:hover,.filelabel:hover{filter:brightness(1.08);transform:translateY(-1px)}button.secondary{background:var(--panel2);border:1px solid var(--line);color:var(--text)}button.ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.check{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px;margin-top:12px}.check input{accent-color:var(--accent)}
+.note,.status{color:var(--muted);font-size:13px}.status{margin-top:12px;min-height:20px}.status.error{color:var(--bad)}.status.ok{color:var(--good)}
+.hidden{display:none!important}.divider{height:1px;background:var(--line);margin:18px 0}
+.stats{display:flex;gap:10px;flex-wrap:wrap}.stat{background:#11131a;border:1px solid var(--line);padding:9px 13px;border-radius:10px;color:var(--muted);font-size:13px}.stat b{color:var(--text)}
+.progress{height:6px;background:#353746;border-radius:9px;overflow:hidden;margin:12px 0 12px}.progress span{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
+.year-nav{display:flex;flex-wrap:wrap;align-items:center;gap:4px;padding:2px 0 9px;margin-bottom:12px}
+.year-link{flex:0 0 auto;background:transparent;border:1px solid transparent;color:var(--muted);padding:5px 9px;border-radius:8px;font:600 13px system-ui;white-space:nowrap;cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+.year-link:hover{background:#ffffff0a;color:var(--text);transform:none;filter:none}
+.year-link.active{color:var(--accent);background:#b7a0ff18;border-color:#b7a0ff55}
+.year-check{color:var(--good);font-size:12px;margin-left:5px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:16px}.card{background:#14161e;border:1px solid var(--line);border-radius:13px;overflow:hidden;cursor:pointer;text-align:left;padding:0;color:var(--text);font:inherit;transition:.16s;display:flex;flex-direction:column}.card:hover{border-color:#8170b8;transform:translateY(-3px)}.card.selected{border:2px solid var(--good);box-shadow:0 0 0 2px #8bd6b022}.cover{width:100%;aspect-ratio:3/4;object-fit:cover;background:#292c38;display:block}.placeholder{aspect-ratio:3/4;display:grid;place-items:center;background:linear-gradient(145deg,#302b43,#171922);color:#b8acd9;font-size:36px}.cardbody{padding:10px 11px 12px}.title{font-weight:650;font-size:13px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.sub{color:var(--muted);font-size:11px;margin-top:5px}.winner{font-size:10px;color:var(--good);font-weight:750;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.summary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.summary-item{display:grid;grid-template-columns:42px 1fr;gap:9px;align-items:center;min-width:0;background:#14161e;border:1px solid var(--line);border-radius:9px;padding:7px}.summary-item img,.summary-placeholder{width:42px;height:56px;object-fit:cover;border-radius:5px;background:#292c38}.summary-placeholder{display:grid;place-items:center;color:#b8acd9}.summary-copy{min-width:0}.summary-year{font-size:11px;color:var(--accent);font-weight:700}.summary-title{font-size:12px;font-weight:650;line-height:1.25;overflow-wrap:anywhere}.resultrow{display:grid;grid-template-columns:76px 1fr auto;gap:14px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}.resultrow:last-child{border:0}.resultrow img{width:76px;aspect-ratio:3/4;object-fit:cover;border-radius:7px;background:#292c38}.year{font-size:12px;color:var(--muted)}.resulttitle{font-weight:700}.small{font-size:12px;color:var(--muted)}
+footer{color:#747786;text-align:center;font-size:12px;margin-top:35px}
+@media(max-width:760px){.summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:560px){main{padding:22px 14px 50px}.panel{padding:17px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.summary-grid{grid-template-columns:1fr}.resultrow{grid-template-columns:60px 1fr}.resultrow img{width:60px}.resultrow button{grid-column:2;justify-self:start}}@media print{@page{size:A4 landscape;margin:8mm}body{background:#fff!important;color:#111!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}body *{visibility:hidden!important}#resultsView,#resultsView *{visibility:visible!important}#resultsView{position:absolute;left:0;top:0;width:100%;margin:0!important;padding:0!important}#resultsView>.row:first-child,#resultsList,#detailHeading,#exportCsv,#backToPicks,#printResults{display:none!important}#summaryPanel{display:block!important;margin:0!important;padding:0!important;border:0!important;box-shadow:none!important;background:#fff!important}#summaryGrid{grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}#summaryGrid .summary-item{grid-template-columns:28px 1fr;gap:5px;padding:3px;background:#fff!important;border:1px solid #bbb;break-inside:avoid}#summaryGrid .summary-item img,#summaryGrid .summary-placeholder{width:28px;height:38px;border-radius:2px}#summaryGrid .summary-year{font-size:8px;color:#444}#summaryGrid .summary-title{font-size:8px;line-height:1.15;color:#111}}
+</style></head>
+<body><main>
+<div class="top"><div class="brand">✦ VN AWARDS</div><div class="tag">PERSONAL GAME OF THE YEAR</div></div>
+<section id="intro">
+<h1>Your VN<br><span style="color:var(--accent)">Game of the Year.</span></h1>
+<p class="lead">Pick one winner for every release year represented in the Finished section of your VNDB list. At the end, get your own chronological hall of fame.</p>
+<div class="panel">
+<h2>Import your collection</h2><p class="note">Enter a VNDB username to load only Finished visual novels, or import a CSV export.</p>
+<div class="row"><div class="field"><label for="username">VNDB username</label><input id="username" type="text" placeholder="Your VNDB username" autocomplete="username"></div><button id="loadBtn">Load collection</button></div>
+<label class="check"><input id="remember" type="checkbox"> Remember this username on this device</label>
+<div class="status" id="loadStatus" role="status"></div>
+<div class="divider"></div>
+<div class="row between"><div><b>Have a VNDB CSV export?</b><div class="note">Use it if your list is private or API access is unavailable.</div></div><label class="filelabel" for="csvFile">Import CSV</label><input id="csvFile" type="file" accept=".csv,text/csv" class="hidden"></div>
+</div>
+<p class="note">Your selections and imported list stay in this browser. Nothing is uploaded to a separate server.</p>
+</section>
+<section id="workspace" class="hidden">
+<div class="row between"><div><h2 id="sectionTitle">Your selections</h2><div class="note" id="collectionMeta"></div></div><div class="row"><button class="secondary" id="restartImport">Change list</button><button class="ghost" id="resetAll">Reset picks</button></div></div>
+<div class="stats" id="stats"></div><div class="progress"><span id="progressBar"></span></div>
+<div id="selectionView">
+<nav class="year-nav" id="yearNavigator" aria-label="Choose a release year"></nav>
+<div class="row between" style="margin-bottom:14px"><div><div class="small">CURRENT YEAR</div><h1 id="yearHeading" style="font-size:42px;margin:0"></h1></div><div class="row"><button class="ghost" id="prevYear">← Previous</button><button class="secondary" id="nextYear">Next →</button></div></div>
+<p class="lead" style="margin-bottom:18px">Choose your favourite visual novel released this year. You can change your mind at any time.</p>
+<div class="grid" id="candidateGrid"></div>
+<div class="row between" style="margin-top:20px"><div class="note" id="pickStatus"></div><button id="showResults">View results</button></div>
+</div>
+<div id="resultsView" class="hidden">
+<div class="row between"><div><h2>Your winners</h2><p class="note" id="resultMeta"></p></div><button class="secondary" id="backToPicks">Back to selections</button></div>
+<div class="panel" style="margin-top:15px" id="summaryPanel"><div class="row between" style="margin-bottom:12px"><h3>At a glance</h3><span class="small">Chronological selection overview</span></div><div class="summary-grid" id="summaryGrid"></div></div>
+<div class="row" style="margin:12px 0 22px"><button class="secondary" id="printResults">Print / Save as PDF</button><button id="exportCsv">Export winners CSV</button></div>
+<div class="divider"></div><div class="row between" id="detailHeading"><div><h3>Detailed list</h3><p class="note">Change a pick or review an individual title.</p></div></div>
+<div class="panel" style="margin-top:12px" id="resultsList"></div>
+</div>
+</section>
+<footer>VN Awards · A small fan-made tool · VNDB data remains property of its respective contributors</footer>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const state={username:"",vns:[],years:[],picks:{},yearIndex:0,source:""};
+const STORE="vn-awards-project-v1", USERKEY="vn-awards-default-username-v1";
+function save(){localStorage.setItem(STORE,JSON.stringify({version:2,username:state.username,vns:state.vns,picks:state.picks,source:state.source}));}
+function loadSaved(){try{const d=JSON.parse(localStorage.getItem(STORE)||"null");if(d&&Array.isArray(d.vns)&&d.vns.length){state.username=d.username||"";state.vns=d.vns;state.picks=d.picks||{};state.source=d.source||"saved";prepareYears();$("username").value=state.username;$("remember").checked=!!localStorage.getItem(USERKEY);if(d.version<2&&state.source==="VNDB"){setStatus("Your saved import predates the Finished-only filter. Reload your VNDB list to apply it; existing picks will be kept where possible.","error");}else{showWorkspace();}}}catch(e){}const u=localStorage.getItem(USERKEY);if(u&&!$("username").value)$("username").value=u;}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function prepareYears(){const map=new Map();for(const v of state.vns){if(!v.year)continue;if(!map.has(v.year))map.set(v.year,[]);map.get(v.year).push(v);}state.years=[...map.keys()].sort((a,b)=>a-b);for(const y of state.years){if(state.picks[y]&&!map.get(y).some(v=>v.id===state.picks[y]))delete state.picks[y];}}
+function setStatus(msg,type=""){const el=$("loadStatus");el.textContent=msg;el.className="status "+type;}
+function parseYear(v){let y=v.year??v.released??v.release_year??v.date??"";if(typeof y==="string"){const m=y.match(/\b(18|19|20|21)\d{2}\b/);y=m?Number(m[0]):0;}return Number(y)>=1800&&Number(y)<=2100?Number(y):0;}
+function normalize(v){const title=v.title||v.title_english||v.name||v.original||"Untitled";const id=String(v.id||v.vnid||v.vndb_id||title);let image=v.image||v.image_url||v.cover||v.cover_url||"";if(image&&typeof image==="object")image=image.url||image.image||"";return{id,title,year:parseYear(v),image:String(image||"")};}
+function dedupe(list){const seen=new Set();return list.map(normalize).filter(v=>v.year&&v.title&&!seen.has(v.id)&&seen.add(v.id));}
+async function apiPost(endpoint,body){const r=await fetch("https://api.vndb.org/kana/"+endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});if(!r.ok){let detail="";try{detail=await r.text()}catch(e){}throw new Error("VNDB API returned HTTP "+r.status+(detail?": "+detail.slice(0,180):""));}return r.json();}
+async function fetchVNDB(username){
+ // VNDB's user lookup is GET /user?q=..., with a response keyed by the query.
+ const userResponse=await fetch("https://api.vndb.org/kana/user?q="+encodeURIComponent(username));
+ if(!userResponse.ok)throw new Error("VNDB user lookup failed (HTTP "+userResponse.status+").");
+ const userData=await userResponse.json();
+ const user=userData[username]||Object.values(userData).find(u=>u&&u.username?.toLowerCase()===username.toLowerCase());
+ if(!user)throw new Error("No VNDB user found with that username.");
+ let all=[],page=1;
+ while(true){
+  // Built-in VNDB list label 2 is Finished. Filter on the API so wishlist,
+  // playing, stalled and dropped entries never reach the selection pool.
+  const data=await apiPost("ulist",{user:user.id,filters:["label","=",2],fields:"id, labels.id, labels.label, vn.id, vn.title, vn.released, vn.image.url",results:100,page,sort:"id",reverse:false});
+  const rows=data.results||[];
+  all.push(...rows.map(x=>{const v=x.vn||{};return{id:v.id||x.id,title:v.title,year:v.released,image:v.image?.url||""};}));
+  if(!data.more||page>=100)break;
+  page++;
+ }
+ return dedupe(all);
+}
+function csvParse(text){const rows=[];let row=[],cell="",q=false;for(let i=0;i<text.length;i++){const c=text[i];if(q){if(c==='"'&&text[i+1]==='"'){cell+='"';i++;}else if(c==='"')q=false;else cell+=c;}else if(c==='"')q=true;else if(c===","){row.push(cell);cell="";}else if(c==="\n"){row.push(cell);rows.push(row);row=[];cell="";}else if(c!=="\r")cell+=c;}row.push(cell);if(row.length>1||row[0])rows.push(row);if(rows.length<2)throw new Error("The CSV appears to be empty.");const headers=rows[0].map(x=>x.trim().toLowerCase());const idx=names=>headers.findIndex(h=>names.some(n=>h===n||h.includes(n)));const ti=idx(["title","name"]),yi=idx(["released","release year","year","date"]),ii=idx(["image","cover"]),idi=idx(["id","vndb id","vnid"]),si=idx(["status","labels","label"]);if(ti<0)throw new Error("Couldn't find a title/name column in this CSV.");const entries=rows.slice(1).filter(r=>r.some(Boolean)).map((r,i)=>{const label=si>=0?String(r[si]||"").trim():"";return{title:r[ti],year:yi>=0?r[yi]:"",image:ii>=0?r[ii]:"",id:idi>=0?r[idi]:"csv-"+i,listFinished:si<0?null:label.split(/[,;|]/).some(x=>/^(finished|2)$/i.test(x.trim()))};});return{entries,hasStatus:si>=0};}
+function importList(vns,username,source){if(!vns.length)throw new Error("No finished visual novels with a usable release year were found.");const sameCollection=state.source===source&&((source==="VNDB"&&state.username.toLowerCase()===username.toLowerCase())||source.startsWith("CSV"));const previousPicks=sameCollection?state.picks:{};state.vns=vns;state.username=username;state.source=source;state.picks=previousPicks;state.yearIndex=0;prepareYears();save();showWorkspace();}
+$("loadBtn").onclick=async()=>{const u=$("username").value.trim();if(!u){setStatus("Enter a VNDB username first.","error");return;}const b=$("loadBtn");b.disabled=true;b.textContent="Loading…";setStatus("Looking up the account and retrieving its visual novel list…");try{const list=await fetchVNDB(u);importList(list,u,"VNDB");if($("remember").checked)localStorage.setItem(USERKEY,u);else localStorage.removeItem(USERKEY);setStatus("");}catch(e){setStatus(e.message+" You can also import a CSV export.","error");}finally{b.disabled=false;b.textContent="Load collection";}};
+$("remember").onchange=()=>{const u=$("username").value.trim();if($("remember").checked&&u)localStorage.setItem(USERKEY,u);else localStorage.removeItem(USERKEY);};
+$("username").onchange=()=>{if($("remember").checked&&$("username").value.trim())localStorage.setItem(USERKEY,$("username").value.trim());};
+$("csvFile").onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const parsed=csvParse(await f.text());const filtered=parsed.hasStatus?parsed.entries.filter(v=>v.listFinished):parsed.entries;const list=dedupe(filtered);if(!parsed.hasStatus)setStatus("This CSV has no list-status column, so all rows are retained. For Finished-only results, export only Finished entries from VNDB.");importList(list,"",parsed.hasStatus?"CSV (Finished-filtered)":"CSV (no status column)");}catch(err){setStatus(err.message,"error");}e.target.value="";};
+function showWorkspace(){$("intro").classList.add("hidden");$("workspace").classList.remove("hidden");$("collectionMeta").textContent=`${state.vns.length} visual novels · ${state.years.length} release years · Imported from ${state.source}`;render();}
+function render(){const done=state.years.filter(y=>state.picks[y]).length,total=state.years.length;$("stats").innerHTML=`<div class="stat"><b>${state.vns.length}</b> finished visual novels</div><div class="stat"><b>${total}</b> eligible years</div><div class="stat"><b>${done}/${total}</b> winners selected</div>`;$("progressBar").style.width=(total?done/total*100:0)+"%";const y=state.years[state.yearIndex];$("yearNavigator").innerHTML=state.years.map((year,index)=>{const active=index===state.yearIndex,selected=!!state.picks[year];return `<button class="year-link${active?" active":""}" data-year-index="${index}" aria-current="${active?"true":"false"}" aria-label="Go to ${year}${selected?", winner selected":""}">${year}${selected?'<span class="year-check" aria-hidden="true">✓</span>':""}</button>`;}).join("");$("yearNavigator").querySelectorAll("[data-year-index]").forEach(b=>b.onclick=()=>{state.yearIndex=Number(b.dataset.yearIndex);render();});const activeYearButton=$("yearNavigator").querySelector(".year-link.active");if(activeYearButton)activeYearButton.scrollIntoView({block:"nearest",inline:"nearest",behavior:"smooth"});$("yearHeading").textContent=y??"—";$("prevYear").disabled=state.yearIndex<=0;$("nextYear").disabled=state.yearIndex>=total-1;$("pickStatus").textContent=state.picks[y]?"Winner selected — you can choose another title to replace it.":"No winner selected yet.";const grid=$("candidateGrid");grid.innerHTML="";(state.vns.filter(v=>v.year===y).sort((a,b)=>a.title.localeCompare(b.title))).forEach(v=>{const c=document.createElement("button");c.className="card"+(state.picks[y]===v.id?" selected":"");c.innerHTML=(v.image?`<img class="cover" loading="lazy" src="${esc(v.image)}" alt="">`:`<div class="placeholder">✦</div>`)+`<div class="cardbody">${state.picks[y]===v.id?'<div class="winner">★ Selected winner</div>':""}<div class="title">${esc(v.title)}</div><div class="sub">${v.year}</div></div>`;c.onclick=()=>{state.picks[y]=v.id;const nextUnfinished=state.years.findIndex((year,index)=>index>state.yearIndex&&!state.picks[year]);const firstUnfinished=state.years.findIndex(year=>!state.picks[year]);if(nextUnfinished>=0)state.yearIndex=nextUnfinished;else if(firstUnfinished>=0)state.yearIndex=firstUnfinished;save();render();};grid.append(c);});$("showResults").textContent=done===total?"View your winners":"View results ("+done+"/"+total+")";renderResults();}
+function renderResults(){const winners=state.years.filter(y=>state.picks[y]).map(y=>({year:y,...state.vns.find(v=>v.id===state.picks[y])}));$("resultMeta").textContent=`${winners.length} of ${state.years.length} years have a winner.`;$("summaryGrid").innerHTML=winners.length?winners.map(v=>`<div class="summary-item">${v.image?`<img loading="lazy" src="${esc(v.image)}" alt="">`:'<div class="summary-placeholder">✦</div>'}<div class="summary-copy"><div class="summary-year">${v.year}</div><div class="summary-title">${esc(v.title)}</div></div></div>`).join(""):'<p class="note">No winners selected yet.</p>';$("resultsList").innerHTML=winners.length?winners.map(v=>`<div class="resultrow">${v.image?`<img loading="lazy" src="${esc(v.image)}" alt="">`:'<div class="placeholder" style="width:60px;aspect-ratio:3/4">✦</div>'}<div><div class="year">${v.year}</div><div class="resulttitle">${esc(v.title)}</div></div><button class="ghost" data-year="${v.year}">Change</button></div>`).join(""):'<p class="note">No winners selected yet. Return to the yearly selections to get started.</p>';$("resultsList").querySelectorAll("[data-year]").forEach(b=>b.onclick=()=>{state.yearIndex=state.years.indexOf(Number(b.dataset.year));$("resultsView").classList.add("hidden");$("selectionView").classList.remove("hidden");render();});}
+$("prevYear").onclick=()=>{state.yearIndex--;render();};$("nextYear").onclick=()=>{state.yearIndex++;render();};$("showResults").onclick=()=>{$("selectionView").classList.add("hidden");$("resultsView").classList.remove("hidden");renderResults();};$("backToPicks").onclick=()=>{$("resultsView").classList.add("hidden");$("selectionView").classList.remove("hidden");};
+$("resetAll").onclick=()=>{if(confirm("Clear every yearly winner? Your imported list will remain.")){state.picks={};save();render();}};
+$("restartImport").onclick=()=>{if(confirm("Return to import? Your current project will remain saved on this device.")){$("workspace").classList.add("hidden");$("intro").classList.remove("hidden");}};
+$("exportCsv").onclick=()=>{const rows=[["Year","Title","VNDB ID"]];state.years.filter(y=>state.picks[y]).forEach(y=>{const v=state.vns.find(x=>x.id===state.picks[y]);rows.push([y,v.title,v.id]);});const csv=rows.map(r=>r.map(x=>'"'+String(x).replace(/"/g,'""')+'"').join(",")).join("\r\n");download(csv,"vn-game-of-the-year.csv","text/csv");};
+$("printResults").onclick=()=>window.print();
+function download(data,name,type){const a=document.createElement("a"),url=URL.createObjectURL(new Blob([data],{type}));a.href=url;a.download=name;a.click();URL.revokeObjectURL(url);}
+loadSaved();
+</script></body></html>
